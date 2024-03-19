@@ -30,25 +30,59 @@ const createBook = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ book });
 };
 
-const updateBook = async (req, res) => {
-  const {
-    body: { pages },
-    user: { userId },
-    params: { id: bookId },
-  } = req;
+// const updateBook = async (req, res) => {
+//   const {
+//     body: { pages },
+//     user: { userId },
+//     params: { id: bookId },
+//   } = req;
 
-  if (pages === '') {
-    throw new BadRequestError('Page field cannot be empty');
+//   if (pages === '') {
+//     throw new BadRequestError('Page field cannot be empty');
+//   }
+//   const book = await Book.findByIdAndUpdate(
+//     { _id: bookId, createdBy: userId },
+//     req.body,
+//     { new: true, runValidators: true }
+//   );
+//   if (!book) {
+//     throw new NotFoundError(`No book with id ${bookId}`);
+//   }
+//   res.status(StatusCodes.OK).json({ book });
+// };
+
+const updateBook = async (req, res) => {
+  try {
+    const {
+      body: { pages },
+      user: { userId },
+      params: { id: bookId },
+    } = req;
+
+    console.log('Pages:', pages);
+    console.log('UserID:', userId);
+    console.log('BookID:', bookId);
+    console.log('Request Body:', req.body);
+
+    if (pages === '') {
+      throw new BadRequestError('Page field cannot be empty');
+    }
+    
+    const book = await Book.findByIdAndUpdate(
+      { _id: bookId, createdBy: userId },
+      req.body,
+      { new: true, runValidators: true }
+    );
+
+    if (!book) {
+      throw new NotFoundError(`No book with id ${bookId}`);
+    }
+
+    res.status(StatusCodes.OK).json({ book });
+  } catch (error) {
+    console.error('Error updating book:', error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' });
   }
-  const book = await Book.findByIdAndUpdate(
-    { _id: bookId, createdBy: userId },
-    req.body,
-    { new: true, runValidators: true }
-  );
-  if (!book) {
-    throw new NotFoundError(`No book with id ${bookId}`);
-  }
-  res.status(StatusCodes.OK).json({ book });
 };
 
 const deleteBook = async (req, res) => {
