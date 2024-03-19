@@ -10,7 +10,6 @@ class UnauthorizedError extends CustomAPIError {
 
 module.exports = UnauthorizedError;
 
-
 // Tech Team
 
 // Implement a basic task queue in Node.js using asynchronous functions and callbacks. Tasks should be executed in parallel up to a certain limit defined by the user.
@@ -20,7 +19,7 @@ module.exports = UnauthorizedError;
 // Tech Team
 
 // Develop a RESTful API using Express.js for a simple application,
-//  such as a to-do list or a blog. Implement endpoints for CRUD operations 
+//  such as a to-do list or a blog. Implement endpoints for CRUD operations
 //  (Create, Read, Update, Delete)
 //   for managing resources.
 //    Ensure proper error handling, input validation, and authentication/authorization mechanisms.

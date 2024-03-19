@@ -67,12 +67,11 @@ const updateBook = async (req, res) => {
     if (pages === '') {
       throw new BadRequestError('Page field cannot be empty');
     }
-    
-    const book = await Book.findByIdAndUpdate(
-      { _id: bookId, createdBy: userId },
-      req.body,
-      { new: true, runValidators: true }
-    );
+
+    const book = await Book.findByIdAndUpdate(bookId, { pages }, req.body, {
+      new: true,
+      runValidators: true,
+    });
 
     if (!book) {
       throw new NotFoundError(`No book with id ${bookId}`);
@@ -81,7 +80,9 @@ const updateBook = async (req, res) => {
     res.status(StatusCodes.OK).json({ book });
   } catch (error) {
     console.error('Error updating book:', error);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'Internal Server Error' });
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ error: 'Internal Server Error' });
   }
 };
 
@@ -98,13 +99,13 @@ const deleteBook = async (req, res) => {
   if (!book) {
     throw new NotFoundError(`No book with id ${bookId}`);
   }
-  res.status(StatusCodes.OK).send();
+  res.status(StatusCodes.OK).json({ msg: 'Success! Book removed.' });
 };
 
 module.exports = {
   getAllBooks,
   getSingleBook,
   createBook,
-  deleteBook,
   updateBook,
+  deleteBook,
 };

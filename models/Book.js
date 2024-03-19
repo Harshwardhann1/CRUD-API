@@ -4,10 +4,12 @@ const BookSchema = new mongoose.Schema(
   {
     name: {
       type: String,
-      required: true,
+      unique: true,
+      required: [true, 'Please provide name'],
       maxlength: 100,
     },
     pages: {
+      
       type: Number,
       required: true,
     },
