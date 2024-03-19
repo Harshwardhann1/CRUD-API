@@ -8,6 +8,7 @@ const authenticateUser = require('./middleware/authentication');
 
 //routers
 const authRouter = require('./routes/auth');
+const booksRouter = require('./routes/books');
 
 // error handler
 const notFoundMiddleware = require('./middleware/not-found');
@@ -19,6 +20,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/books', authenticateUser, booksRouter);
+
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 3000;
